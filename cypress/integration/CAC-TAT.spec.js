@@ -15,7 +15,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('#lastName').type('Lacerda')
         cy.get('#email').type('lorrainelacerda@gmail.com')
         cy.get('#open-text-area').type(longText, { delay: 0 }) //definir o delay faz o teste rodar mais rápido, o que é muito importate.
-        cy.get('button[type="submit"]').click()
+        cy.contains('button', 'Enviar').click()
 
         cy.get('.success').should('be.visible')
     })
@@ -25,7 +25,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('#lastName').type('Lacerda')
         cy.get('#email').type('lorrainelacerda@gmail,com')
         cy.get('#open-text-area').type('teste') 
-        cy.get('button[type="submit"]').click()
+        cy.contains('button', 'Enviar').click()
 
         cy.get('.error').should('be.visible')
         
@@ -44,10 +44,44 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('#email').type('lorrainelacerda@gmail.com')
         cy.get('#phone-checkbox').click()
         cy.get('#open-text-area').type('teste') 
-        cy.get('button[type="submit"]').click()
+        cy.contains('button', 'Enviar').click()
 
         cy.get('.error').should('be.visible')
     })
 
+    //espaço para o código que fiz em casa -> enviar commit para o github
+
+    it('envia o formulário com sucesso usando um comando customizado', function(){
+        cy.fillMandatoryFieldsAndSubmit()
+
+        cy.get('.success').should('be.visible')
+    })
+
+    it('seleciona um produto (YouTube) por seu nome', function(){
+        cy.get('#product')
+          .select('YouTube')
+          .should('have.value', 'youtube')
+    })
+
+    it('seleciona um produto (Mentoria) pelo seu valor (value)', function(){
+        cy.get('#product')
+        .select('mentoria')
+        .should('have.value', 'mentoria')
+
+    })
+
+    it('seleciona um produto (Blog) pelo seu indice', function(){
+        cy.get('#product')
+        .select(1)
+        .should('have.value', 'blog')
+
+    })
+
+    
+
+
+
   })
+
+
   

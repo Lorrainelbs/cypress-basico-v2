@@ -245,7 +245,8 @@ describe('Central de Atendimento ao Cliente TAT', function() {
           .should('be.visible')
         cy.get('#title')
           .invoke('text', 'CAT TAT')
-
+        cy.get('#subtitle')
+          .invoke('text', 'Eu 💛 gatos!')
       })
 })
 

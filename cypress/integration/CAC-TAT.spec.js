@@ -44,7 +44,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('.error').should('not.be.visible')
     })
     Cypress._.times(3, function(){
-    it.only('campo telefone continua vazio quando preenchido com valor não-numérico', function(){
+    it('campo telefone continua vazio quando preenchido com valor não-numérico', function(){
         cy.get('#phone')
           .type('abcdefjhij')
           .should('have.value', '')
@@ -203,6 +203,50 @@ describe('Central de Atendimento ao Cliente TAT', function() {
           cy.contains('Talking About Testing').should('be.visible')
     }) 
 
+    it('exibe e esconde as mensagens de sucesso e erro usando o .invoke', function() {
+        cy.get('.success')
+          .should('not.be.visible')
+          .invoke('show')
+          .should('be.visible')
+          .and('contain', 'Mensagem enviada com sucesso.')
+          .invoke('hide')
+          .should('not.be.visible')
+        cy.get('.error')
+          .should('not.be.visible')
+          .invoke('show')
+          .should('be.visible')
+          .and('contain', 'Valide os campos obrigatórios!')
+          .invoke('hide')
+          .should('not.be.visible')
+      })
+
+      it('preenche a área de texto usando o comando invoke', function() {
+        const longText = Cypress._.repeat('0123456789', 20) //cria um texto longo de 200 caracteres
+        
+        cy.get('#open-text-area')
+          .invoke('val', longText)
+          .should('have.value', longText)
+
+      })
+
+      it('faz uma requisição HTTP', function() {
+        cy.request('https://cac-tat.s3.eu-central-1.amazonaws.com/index.html')
+          .should(function(response) {
+            const{status, statusText, body} = response 
+            expect(status).to.equal(200)
+            expect(statusText).to.equal('OK')
+            expect(body).to.include('CAC TAT')
+          })
+      })
+
+      it.only('encontra o gato escondido', function() {
+        cy.get('#cat')
+          .invoke('show')
+          .should('be.visible')
+        cy.get('#title')
+          .invoke('text', 'CAT TAT')
+
+      })
 })
 
 
